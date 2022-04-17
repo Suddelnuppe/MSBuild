@@ -178,7 +178,6 @@ namespace Microsoft.Build.Unity
             // This method blocks so it should only be possible to have one call at a time (unless it is called from the wrong thread).
             Debug.Assert(!MSBuildProjectBuilder.isBuildingWithDefaultUI);
             MSBuildProjectBuilder.isBuildingWithDefaultUI = true;
-			Debug.LogError(additionalArguments);
             try
             {
                 // When in batch mode, simply log the progress.
@@ -397,7 +396,7 @@ namespace Microsoft.Build.Unity
 
         private static async Task<int> BuildProjectAsync(string projectPath, BuildEngine buildEngine, string arguments, IProgress<(string progressMessage, ProgressMessageType progressMessageType)> progress, CancellationToken cancellationToken)
         {
-            arguments = $"{Path.GetFileName(projectPath)} -restore {arguments}";
+            arguments = $"\"{Path.GetFileName(projectPath)}\" -restore {arguments}";
             string msBuildPath = null;
 
             switch (buildEngine)
@@ -432,7 +431,7 @@ namespace Microsoft.Build.Unity
 
             using (var process = new System.Diagnostics.Process { EnableRaisingEvents = true })
             {
-                process.StartInfo.FileName = $"\"{msBuildPath}\"";
+                process.StartInfo.FileName = msBuildPath;
                 process.StartInfo.Arguments = $"{arguments} -nologo";
 
                 process.StartInfo.UseShellExecute = false;
