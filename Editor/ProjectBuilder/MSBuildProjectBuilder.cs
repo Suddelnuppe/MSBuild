@@ -432,7 +432,7 @@ namespace Microsoft.Build.Unity
 
             using (var process = new System.Diagnostics.Process { EnableRaisingEvents = true })
             {
-                process.StartInfo.FileName = "\"msBuildPath\"";
+                process.StartInfo.FileName = $"\"{msBuildPath}\"";
                 process.StartInfo.Arguments = $"{arguments} -nologo";
 
                 process.StartInfo.UseShellExecute = false;
